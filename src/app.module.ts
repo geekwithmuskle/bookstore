@@ -1,9 +1,10 @@
 import { Module } from '@nestjs/common';
 import { GlobalExceptionFilter } from './shared';
 import { APP_FILTER } from '@nestjs/core';
+import { ResourceModule } from './modules';
 
 @Module({
-  imports: [],
+  imports: [ResourceModule],
   controllers: [],
   providers: [
     {

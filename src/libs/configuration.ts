@@ -12,7 +12,7 @@ export default () => ({
     timezone: config.get<string>('APP_TIMEZONE') || 'Africa/Lagos',
   },
   mongodb: {
-    url: config.get<string>('MONGOSEDB_URL'),
+    url: config.get<string>('MONGODB_URL'),
   },
 
   jwt: {
