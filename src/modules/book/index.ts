@@ -1,3 +1,3 @@
-export * from './book.controller';
+export * from './controller/book.controller';
 export * from './book.module';
-export * from './book.service';
+export * from './service/book.service';
