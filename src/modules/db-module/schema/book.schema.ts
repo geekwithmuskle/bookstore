@@ -26,5 +26,3 @@ export const BookSchema: Schema<IBook> = new Schema(
   },
   { timestamps: true },
 );
-
-// export default mongoose.model<IBook>('Book', BookSchema);

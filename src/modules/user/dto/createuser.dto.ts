@@ -5,6 +5,7 @@ import {
   IsOptional,
   IsString,
 } from 'class-validator';
+import { UserRole } from '../enum';
 
 export class CreateUserDto {
   @IsString()
@@ -23,5 +24,5 @@ export class CreateUserDto {
   @IsEnum(['customer', 'admin'], {
     message: 'Role must be either "customer" or "admin"',
   })
-  role?: 'customer' | 'admin';
+  role: UserRole;
 }

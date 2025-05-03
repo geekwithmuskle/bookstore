@@ -1,8 +1,7 @@
-import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { OrderSchema } from '../db-module';
-import { OrderService } from './service';
-import { OrderController } from './controller';
+import { Module } from '@nestjs/common';
+
 @Module({
   imports: [
     MongooseModule.forFeature([
@@ -12,7 +11,5 @@ import { OrderController } from './controller';
       },
     ]),
   ],
-  providers: [OrderService],
-  controllers: [OrderController],
 })
 export class OrderModule {}
