@@ -89,6 +89,7 @@ export class User implements IUser {
     type: String,
     enum: Role,
     default: Role.USER,
+    immutable: true,
   })
   role: Role;
 
