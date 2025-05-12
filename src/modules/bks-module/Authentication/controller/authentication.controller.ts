@@ -1,6 +1,8 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Post, Res } from '@nestjs/common';
 import { AuthService } from '../service';
-import { SignupDto } from '../dto';
+import { LoginDto, SignupDto } from '../dto';
+import { ResponseFormat } from 'src/shared';
+import { RefreshTokenDto } from '../dto/refresh-tk.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -8,11 +10,55 @@ export class AuthController {
 
   // Signup
   @Post('signup')
-  async signUp(@Body() signupData: SignupDto) {}
+  async signUp(@Res() res, @Body() signupData: SignupDto) {
+    const data = await this.authService.signup(signupData);
+
+    if (!data) {
+      throw new ResponseFormat.failureResponse(
+        res,
+        null,
+        'Registration failed!',
+      );
+    }
+
+    return ResponseFormat.successResponse(res, data, 'Registration succesful');
+  }
 
   // Login
   @Post('login')
-  async login() {}
+  async login(@Res() res, @Body() credantials: LoginDto) {
+    const response = await this.authService.login(credantials);
+
+    if (!response) {
+      throw new ResponseFormat.failureResponse(
+        res,
+        null,
+        'Invalid Credentials',
+      );
+    }
+
+    return ResponseFormat.successResponse(res, response, 'User LoggedIn');
+  }
 
   // Refresh Token
+  @Post('refresh')
+  async refreshToken(@Res() res, @Body() data: RefreshTokenDto) {
+    const response = await this.authService.generateRefreshTokens(
+      data.refreshtoken,
+    );
+
+    if (!response) {
+      throw new ResponseFormat.failureResponse(
+        res,
+        null,
+        'Failed to generate token',
+      );
+    }
+
+    return ResponseFormat.successResponse(
+      res,
+      response,
+      'Token request granted',
+    );
+  }
 }

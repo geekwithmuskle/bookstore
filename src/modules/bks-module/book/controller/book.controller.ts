@@ -1,7 +1,11 @@
-import { Body, Controller, Get, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
 import { BookDto } from '../dto';
 import { BookService } from '../service';
+import { AuthenticationGuard } from 'src/shared';
+import { ApiBearerAuth } from '@nestjs/swagger';
 
+@ApiBearerAuth('JWT')
+@UseGuards(AuthenticationGuard)
 @Controller('books')
 export class BookController {
   constructor(private bookService: BookService) {}
