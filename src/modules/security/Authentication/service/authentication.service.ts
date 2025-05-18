@@ -1,19 +1,19 @@
 import { Injectable } from '@nestjs/common';
-import { LoginDto, SignupDto } from '../dto';
+import { JwtService } from '@nestjs/jwt';
 import { InjectModel } from '@nestjs/mongoose';
-import { User } from 'src/modules/db-module';
 import { Model, Types } from 'mongoose';
+import configuration from 'src/libs/configuration';
+import { User } from 'src/modules/db-module';
+import { IRefreshToken } from 'src/modules/db-module/schema/refresh-token.schema';
+import { LoginDto, SignupDto } from '../dto';
 import AppError from 'src/shared/utils/AppError';
 import { ErrorCode } from 'src/shared';
 import * as bcrypt from 'bcrypt';
-import { JwtService } from '@nestjs/jwt';
-import configuration from 'src/libs/configuration';
-import { IRefreshToken } from 'src/modules/db-module/schema/refresh-token.schema';
 import { v4 as uuidv4 } from 'uuid';
 
 const config = configuration();
 @Injectable()
-export class AuthService {
+export class AuthenticationService {
   constructor(
     @InjectModel(User.name) private UserModel: Model<User>,
     @InjectModel('RefreshToken')
@@ -82,7 +82,7 @@ export class AuthService {
   }
 
   async generateUserTokens(userId: Types.ObjectId) {
-    const accessToken = await this.jwtService.signAsync(
+    const accessToken = await this.jwtService.sign(
       { userId },
       { expiresIn: '1hr', secret: config.jwt.secretKey },
     );
@@ -99,10 +99,11 @@ export class AuthService {
     expiryDate.setDate(expiryDate.getDate() + 1);
     const response = await this.refreshTokenModel.updateOne(
       {
-        token,
         userId,
       },
-      { $set: { expiryDate } },
+      {
+        $set: { token, expiryDate, userId },
+      },
       { upsert: true },
     );
 
