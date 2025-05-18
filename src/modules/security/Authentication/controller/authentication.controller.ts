@@ -1,12 +1,11 @@
 import { Body, Controller, Post, Res } from '@nestjs/common';
-import { AuthService } from '../service';
-import { LoginDto, SignupDto } from '../dto';
+import { LoginDto, RefreshTokenDto, SignupDto } from '../dto';
 import { ResponseFormat } from 'src/shared';
-import { RefreshTokenDto } from '../dto/refresh-tk.dto';
+import { AuthenticationService } from '../service';
 
 @Controller('auth')
-export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+export class AuthenticationController {
+  constructor(private readonly authService: AuthenticationService) {}
 
   // Signup
   @Post('signup')
