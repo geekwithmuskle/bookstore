@@ -12,13 +12,13 @@ export class EmailController {
     const response = await this.emailService.sendEmail(dto);
 
     if (!response) {
-      return ResponseFormat.failureResponse(res, null, 'Email not send');
+      return ResponseFormat.failureResponse(res, null, 'Email not sent');
     }
 
     return ResponseFormat.successResponse(
       res,
       response,
-      'Email sent successfully!!!',
+      'Email sent successfully',
     );
   }
 }

@@ -6,5 +6,6 @@ import { ReviewModule } from './review';
 
 @Module({
   imports: [OrderModule, UserModule, BookModule, ReviewModule],
+  exports: [OrderModule, UserModule, BookModule, ReviewModule],
 })
 export class ClientModule {}

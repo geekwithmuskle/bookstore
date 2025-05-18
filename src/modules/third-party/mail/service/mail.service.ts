@@ -26,7 +26,7 @@ export class EmailService {
 
     const transport = this.emailTransport();
 
-    const options: nodemailer.SendEmailOptions = {
+    const options: nodemailer.SendMailOptions = {
       from: config.email.user,
       to: recipients,
       subject: subject,
@@ -34,8 +34,6 @@ export class EmailService {
     };
 
     try {
-      // const verify = await this.emailTransport().verify();
-      // return verify;
       const response = await transport.sendMail(options);
       console.log(`Email successfully sent!`);
       return response;

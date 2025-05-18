@@ -1,2 +1,2 @@
-export * from './Authentication';
+export * from './authentication';
 export * from './security.module';
